@@ -1,0 +1,11 @@
+chip_id,scene_id,flight_id,aoi_id,path_t0,path_t1,label,date_t0,date_t1,gsd_m,sensor,license
+c00,sceneA,,west,t0_a0.pt,t1_a0.pt,change,2024-01-01,2024-06-01,10,s2,example
+c01,sceneA,,west,t0_a1.pt,t1_a1.pt,change,2024-01-01,2024-06-01,10,s2,example
+c02,sceneB,,west,t0_b0.pt,t1_b0.pt,no_change,2024-01-01,2024-06-01,10,s2,example
+c03,sceneC,,east,t0_c0.pt,t1_c0.pt,change,2024-02-01,2024-07-01,10,s2,example
+c04,sceneC,,east,t0_c1.pt,t1_c1.pt,no_change,2024-02-01,2024-07-01,10,s2,example
+c05,sceneD,,east,t0_d0.pt,t1_d0.pt,no_change,2024-02-01,2024-07-01,10,s2,example
+c06,sceneE,,west,t0_e0.pt,t1_e0.pt,change,2024-03-01,2024-08-01,10,s2,example
+c07,sceneF,,west,t0_f0.pt,t1_f0.pt,no_change,2024-03-01,2024-08-01,10,s2,example
+c08,sceneG,,east,t0_g0.pt,t1_g0.pt,change,2024-04-01,2024-09-01,10,s2,example
+c09,sceneH,,east,t0_h0.pt,t1_h0.pt,no_change,2024-04-01,2024-09-01,10,s2,example
