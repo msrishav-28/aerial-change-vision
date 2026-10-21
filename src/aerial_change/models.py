@@ -27,6 +27,6 @@ class PairDiffBaseline(nn.Module):
 
 
 def build_model(name: str) -> nn.Module:
-    if name in {"pair", "siamese", "diff"}:
+    if name == "pair":
         return PairDiffBaseline()
-    raise ValueError(name)
+    raise ValueError(f"unknown model: {name}; the threshold baseline is not a trained module")
