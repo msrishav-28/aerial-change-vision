@@ -18,19 +18,29 @@ Protocol: [`docs/QUESTION.md`](docs/QUESTION.md), [`docs/TASK.md`](docs/TASK.md)
 ## Setup
 
 ```bash
-python -m venv .venv && source .venv/bin/activate
+git clone https://github.com/msrishav-28/aerial-change-vision
+cd aerial-change-vision
+python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt && pip install -e .
 pytest -q
 python scripts/check_leakage.py
-python scripts/train_baseline.py --epochs 1
+python scripts/train_baseline.py --epochs 1 --allow-placeholder
+python scripts/train_baseline.py --model threshold --allow-placeholder
 ```
 
-Example chips are placeholders. Do not quote that run.
+Settings live in `configs/default.yaml`; unknown or missing keys fail on load.
+CLI flags override the config. Every run writes a unique, never-overwritten
+record under `experiments/`.
+
+Example chips are placeholders: missing chip files fail loudly unless
+`--allow-placeholder` is passed; placeholder runs are stamped
+`placeholder_data: true`; they are smoke tests, never results. Do not quote them.
 
 ## Rules baked into tests
 
 - split by `scene_id` (or `flight_id` for drone)
 - chips from one scene cannot appear in two splits
+- `date_t0` strictly before `date_t1`, or the run fails
 - labels containing tank / missile / warship / enemy **fail the build**
 - report AUPRC and precision at FPR ≤ 0.05, not accuracy
 
