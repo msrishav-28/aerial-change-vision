@@ -1,0 +1,137 @@
+{
+  "utc_start": "2026-10-21T07:37:09.316111+00:00",
+  "utc_end": "2026-10-21T07:38:10.293631+00:00",
+  "command": "scripts/train_baseline.py --config configs/oscd.yaml --model pair --seed 44",
+  "config_file": "configs/oscd.yaml",
+  "config": {
+    "seed": 44,
+    "image_size": 128,
+    "batch_size": 16,
+    "epochs": 10,
+    "lr": 0.001,
+    "model": "pair",
+    "manifest": "data/processed/oscd_manifest.csv",
+    "allow_placeholder": false
+  },
+  "manifest": {
+    "path": "data/processed/oscd_manifest.csv",
+    "sha256": "da3301e9e761dbd832078f790acfa2c4ba0e71a58d52e6d67ce4354ced038ff8"
+  },
+  "split": {
+    "seed": 44,
+    "mode": "assigned",
+    "aois": null,
+    "hash": "e0e0b5b9233181ea",
+    "n_scenes": {
+      "train": 11,
+      "test": 10,
+      "val": 3
+    }
+  },
+  "model": "pair",
+  "git": {
+    "sha": "4edf3fb669696048037374e0a2fa9d7a982b0daa",
+    "dirty": true
+  },
+  "versions": {
+    "python": "3.11.0",
+    "torch": "2.14.1+cpu",
+    "numpy": "2.4.6",
+    "pandas": "3.0.6",
+    "scikit-learn": "1.9.1"
+  },
+  "platform": "Windows-10-10.0.26300-SP0",
+  "device": "cpu",
+  "history": [
+    {
+      "epoch": 0,
+      "n": 166.0,
+      "prevalence": 0.7530120481927711,
+      "auprc": 0.8955850769078941,
+      "prec_at_fpr_0.05": 0.9285714285714286
+    },
+    {
+      "epoch": 1,
+      "n": 166.0,
+      "prevalence": 0.7530120481927711,
+      "auprc": 0.8939699844773149,
+      "prec_at_fpr_0.05": 0.9333333333333333
+    },
+    {
+      "epoch": 2,
+      "n": 166.0,
+      "prevalence": 0.7530120481927711,
+      "auprc": 0.8958735856673241,
+      "prec_at_fpr_0.05": 0.9310344827586207
+    },
+    {
+      "epoch": 3,
+      "n": 166.0,
+      "prevalence": 0.7530120481927711,
+      "auprc": 0.8968005433176649,
+      "prec_at_fpr_0.05": 0.9444444444444444
+    },
+    {
+      "epoch": 4,
+      "n": 166.0,
+      "prevalence": 0.7530120481927711,
+      "auprc": 0.894643292157658,
+      "prec_at_fpr_0.05": 0.9375
+    },
+    {
+      "epoch": 5,
+      "n": 166.0,
+      "prevalence": 0.7530120481927711,
+      "auprc": 0.8673434203507016,
+      "prec_at_fpr_0.05": 0.9354838709677419
+    },
+    {
+      "epoch": 6,
+      "n": 166.0,
+      "prevalence": 0.7530120481927711,
+      "auprc": 0.8856241688409159,
+      "prec_at_fpr_0.05": 0.9375
+    },
+    {
+      "epoch": 7,
+      "n": 166.0,
+      "prevalence": 0.7530120481927711,
+      "auprc": 0.893626245364152,
+      "prec_at_fpr_0.05": 0.9130434782608695
+    },
+    {
+      "epoch": 8,
+      "n": 166.0,
+      "prevalence": 0.7530120481927711,
+      "auprc": 0.8919159829759775,
+      "prec_at_fpr_0.05": 0.9375
+    },
+    {
+      "epoch": 9,
+      "n": 166.0,
+      "prevalence": 0.7530120481927711,
+      "auprc": 0.8881983600956272,
+      "prec_at_fpr_0.05": 0.9259259259259259
+    }
+  ],
+  "val": {
+    "n": 166.0,
+    "prevalence": 0.7530120481927711,
+    "auprc": 0.8881983600956272,
+    "prec_at_fpr_0.05": 0.9259259259259259
+  },
+  "test": {
+    "n": 230.0,
+    "prevalence": 0.8173913043478261,
+    "auprc": 0.8388458258485516,
+    "prec_at_fpr_0.05_val_threshold": 0.8617886178861789
+  },
+  "threshold": {
+    "selected_on": "val",
+    "max_fpr": 0.05,
+    "value": 0.6874312162399292
+  },
+  "placeholder_data": false,
+  "n_placeholder": 0,
+  "note": "All chips loaded from manifest files."
+}

@@ -1,0 +1,66 @@
+{
+  "utc_start": "2026-10-21T07:34:13.756597+00:00",
+  "utc_end": "2026-10-21T07:34:15.340565+00:00",
+  "command": "scripts/train_baseline.py --config configs/oscd.yaml --model threshold --seed 44",
+  "config_file": "configs/oscd.yaml",
+  "config": {
+    "seed": 44,
+    "image_size": 128,
+    "batch_size": 16,
+    "epochs": 10,
+    "lr": 0.001,
+    "model": "threshold",
+    "manifest": "data/processed/oscd_manifest.csv",
+    "allow_placeholder": false
+  },
+  "manifest": {
+    "path": "data/processed/oscd_manifest.csv",
+    "sha256": "da3301e9e761dbd832078f790acfa2c4ba0e71a58d52e6d67ce4354ced038ff8"
+  },
+  "split": {
+    "seed": 44,
+    "mode": "assigned",
+    "aois": null,
+    "hash": "e0e0b5b9233181ea",
+    "n_scenes": {
+      "train": 11,
+      "test": 10,
+      "val": 3
+    }
+  },
+  "model": "threshold",
+  "git": {
+    "sha": "4edf3fb669696048037374e0a2fa9d7a982b0daa",
+    "dirty": true
+  },
+  "versions": {
+    "python": "3.11.0",
+    "torch": "2.14.1+cpu",
+    "numpy": "2.4.6",
+    "pandas": "3.0.6",
+    "scikit-learn": "1.9.1"
+  },
+  "platform": "Windows-10-10.0.26300-SP0",
+  "device": "cpu",
+  "history": [],
+  "val": {
+    "n": 166.0,
+    "prevalence": 0.7530120481927711,
+    "auprc": 0.8794693229792956,
+    "prec_at_fpr_0.05": 0.9375
+  },
+  "test": {
+    "n": 230.0,
+    "prevalence": 0.8173913043478261,
+    "auprc": 0.848526964820596,
+    "prec_at_fpr_0.05_val_threshold": 0.8421052631578947
+  },
+  "threshold": {
+    "selected_on": "val",
+    "max_fpr": 0.05,
+    "value": 6.958841800689697
+  },
+  "placeholder_data": false,
+  "n_placeholder": 0,
+  "note": "All chips loaded from manifest files."
+}

@@ -1,0 +1,137 @@
+{
+  "utc_start": "2026-10-21T07:50:55.541031+00:00",
+  "utc_end": "2026-10-21T07:51:45.798519+00:00",
+  "command": "scripts/train_baseline.py --config configs/oscd.yaml --model pair --holdout-aoi oscd_train_03,oscd_train_08 --seed 42",
+  "config_file": "configs/oscd.yaml",
+  "config": {
+    "seed": 42,
+    "image_size": 128,
+    "batch_size": 16,
+    "epochs": 10,
+    "lr": 0.001,
+    "model": "pair",
+    "manifest": "data/processed/oscd_manifest.csv",
+    "allow_placeholder": false
+  },
+  "manifest": {
+    "path": "data/processed/oscd_manifest.csv",
+    "sha256": "da3301e9e761dbd832078f790acfa2c4ba0e71a58d52e6d67ce4354ced038ff8"
+  },
+  "split": {
+    "seed": 42,
+    "mode": "aoi_holdout",
+    "aois": "oscd_train_03,oscd_train_08",
+    "hash": "c48da17e37a557b4",
+    "n_scenes": {
+      "train": 18,
+      "val": 4,
+      "test": 2
+    }
+  },
+  "model": "pair",
+  "git": {
+    "sha": "4edf3fb669696048037374e0a2fa9d7a982b0daa",
+    "dirty": true
+  },
+  "versions": {
+    "python": "3.11.0",
+    "torch": "2.14.1+cpu",
+    "numpy": "2.4.6",
+    "pandas": "3.0.6",
+    "scikit-learn": "1.9.1"
+  },
+  "platform": "Windows-10-10.0.26300-SP0",
+  "device": "cpu",
+  "history": [
+    {
+      "epoch": 0,
+      "n": 132.0,
+      "prevalence": 0.5909090909090909,
+      "auprc": 0.5882889341092347,
+      "prec_at_fpr_0.05": 0.0
+    },
+    {
+      "epoch": 1,
+      "n": 132.0,
+      "prevalence": 0.5909090909090909,
+      "auprc": 0.6148745199916592,
+      "prec_at_fpr_0.05": 0.5
+    },
+    {
+      "epoch": 2,
+      "n": 132.0,
+      "prevalence": 0.5909090909090909,
+      "auprc": 0.5904530221711759,
+      "prec_at_fpr_0.05": 0.0
+    },
+    {
+      "epoch": 3,
+      "n": 132.0,
+      "prevalence": 0.5909090909090909,
+      "auprc": 0.6099152587965857,
+      "prec_at_fpr_0.05": 0.5
+    },
+    {
+      "epoch": 4,
+      "n": 132.0,
+      "prevalence": 0.5909090909090909,
+      "auprc": 0.6170906640150422,
+      "prec_at_fpr_0.05": 0.6
+    },
+    {
+      "epoch": 5,
+      "n": 132.0,
+      "prevalence": 0.5909090909090909,
+      "auprc": 0.6197031949168385,
+      "prec_at_fpr_0.05": 0.5
+    },
+    {
+      "epoch": 6,
+      "n": 132.0,
+      "prevalence": 0.5909090909090909,
+      "auprc": 0.611900192755982,
+      "prec_at_fpr_0.05": 0.6666666666666666
+    },
+    {
+      "epoch": 7,
+      "n": 132.0,
+      "prevalence": 0.5909090909090909,
+      "auprc": 0.6075038313097099,
+      "prec_at_fpr_0.05": 0.3333333333333333
+    },
+    {
+      "epoch": 8,
+      "n": 132.0,
+      "prevalence": 0.5909090909090909,
+      "auprc": 0.6142224667202807,
+      "prec_at_fpr_0.05": 0.5
+    },
+    {
+      "epoch": 9,
+      "n": 132.0,
+      "prevalence": 0.5909090909090909,
+      "auprc": 0.6253240365451493,
+      "prec_at_fpr_0.05": 0.6
+    }
+  ],
+  "val": {
+    "n": 132.0,
+    "prevalence": 0.5909090909090909,
+    "auprc": 0.6253240365451493,
+    "prec_at_fpr_0.05": 0.6
+  },
+  "test": {
+    "n": 146.0,
+    "prevalence": 0.773972602739726,
+    "auprc": 0.902172592056516,
+    "prec_at_fpr_0.05_val_threshold": 1.0
+  },
+  "threshold": {
+    "selected_on": "val",
+    "max_fpr": 0.05,
+    "value": 0.9176286458969116
+  },
+  "placeholder_data": false,
+  "n_placeholder": 0,
+  "note": "All chips loaded from manifest files."
+}
