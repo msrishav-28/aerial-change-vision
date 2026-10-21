@@ -17,3 +17,12 @@ where = ["src"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
+# The default pytest temp root (%TEMP%/pytest-of-*) is permission-locked on
+# this machine; keep test scratch inside the repo instead.
+addopts = "--basetemp=.pytest_tmp"
+
+[tool.ruff]
+line-length = 110
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
