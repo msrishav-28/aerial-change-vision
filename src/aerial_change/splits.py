@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from datetime import date
 from typing import Sequence
 
 import pandas as pd
@@ -7,6 +8,42 @@ from sklearn.model_selection import train_test_split
 
 from aerial_change.leakage import assert_disjoint
 from aerial_change.schema import REQUIRED_COLUMNS
+
+_MISSING = {"", "nan", "none", "nat"}
+
+
+def _to_date(value) -> date | None:
+    if value is None:
+        return None
+    text = str(value).strip()
+    if text.lower() in _MISSING:
+        return None
+    try:
+        return date.fromisoformat(text)
+    except ValueError:
+        try:
+            return date.fromisoformat(text.split(" ")[0])
+        except ValueError:
+            raise ValueError(f"unparseable date: {value!r}") from None
+
+
+def validate_pair_dates(df: pd.DataFrame) -> None:
+    if "date_t0" not in df.columns and "date_t1" not in df.columns:
+        return
+    if "date_t0" not in df.columns or "date_t1" not in df.columns:
+        raise ValueError("manifest has only one of date_t0/date_t1; both are required together")
+    for idx, row in df.iterrows():
+        t0 = _to_date(row["date_t0"])
+        t1 = _to_date(row["date_t1"])
+        if t0 is None and t1 is None:
+            continue
+        if t0 is None or t1 is None:
+            raise ValueError(
+                f"row {idx}: only one date present "
+                f"(date_t0={row['date_t0']!r}, date_t1={row['date_t1']!r})"
+            )
+        if t0 >= t1:
+            raise ValueError(f"row {idx}: date_t0 {t0} must be strictly before date_t1 {t1}")
 
 
 def load_manifest(path: str) -> pd.DataFrame:
@@ -16,6 +53,7 @@ def load_manifest(path: str) -> pd.DataFrame:
         raise ValueError(f"missing columns: {missing}")
     df["chip_id"] = df["chip_id"].astype(str)
     df["scene_id"] = df["scene_id"].astype(str)
+    validate_pair_dates(df)
     return df
 
 
