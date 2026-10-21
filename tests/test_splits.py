@@ -222,3 +222,14 @@ def test_split_manifest_carves_val_from_official_train():
     assert all_ids == set(df["scene_id"])
     again = split_manifest(df, seed=0)
     assert set(again["val"]["scene_id"]) == val_scenes
+
+
+def test_aoi_holdout_pool_excludes_assigned_test():
+    from aerial_change.splits import aoi_holdout_pool
+
+    df = _assigned_toy()
+    pool = aoi_holdout_pool(df)
+    assert set(pool["split"]) <= {"train", "val"}
+    assert set(pool["scene_id"]) <= set(df[df["split"] != "test"]["scene_id"])
+    # no split column: pool is everything
+    assert len(aoi_holdout_pool(_toy())) == len(_toy())

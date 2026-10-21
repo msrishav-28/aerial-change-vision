@@ -28,7 +28,12 @@ from aerial_change.runs import (
     run_out_path,
     split_hash,
 )
-from aerial_change.splits import holdout_aoi_split, load_manifest, split_manifest
+from aerial_change.splits import (
+    aoi_holdout_pool,
+    holdout_aoi_split,
+    load_manifest,
+    split_manifest,
+)
 
 MAX_FPR = 0.05
 
@@ -111,7 +116,7 @@ def main() -> None:
     df = load_manifest(manifest)
     if args.holdout_aoi:
         aois = [a.strip() for a in args.holdout_aoi.split(",") if a.strip()]
-        parts = holdout_aoi_split(df, aois, seed=seed)
+        parts = holdout_aoi_split(aoi_holdout_pool(df), aois, seed=seed)
         split_mode = "aoi_holdout"
     else:
         parts = split_manifest(df, seed=seed)

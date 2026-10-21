@@ -134,6 +134,14 @@ def split_manifest(df: pd.DataFrame, seed: int = 42) -> dict[str, pd.DataFrame]:
     return scene_level_split(df, seed=seed)
 
 
+def aoi_holdout_pool(df: pd.DataFrame) -> pd.DataFrame:
+    """Candidate rows for AOI-holdout runs: assigned test regions stay out of
+    the pool so a holdout run stays comparable to the official split."""
+    if "split" not in df.columns:
+        return df
+    return df[df["split"].astype(str) != "test"].copy()
+
+
 def holdout_aoi_split(
     df: pd.DataFrame,
     aoi_values: Sequence[str],
