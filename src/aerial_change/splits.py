@@ -99,6 +99,63 @@ def scene_level_split(
     return out
 
 
+VALID_SPLITS = ("train", "val", "test")
+
+
+def assigned_splits(
+    df: pd.DataFrame, seed: int = 42, val_size: float = 0.15
+) -> dict[str, pd.DataFrame]:
+    values = set(df["split"].astype(str))
+    bad = values - set(VALID_SPLITS)
+    if bad:
+        raise ValueError(f"unknown split values: {sorted(bad)}")
+    if "train" not in values or "test" not in values:
+        raise ValueError("assigned splits must contain at least train and test")
+    parts = {}
+    for name in VALID_SPLITS:
+        part = df[df["split"].astype(str) == name].copy()
+        if len(part) or name in values:
+            parts[name] = part
+    if "val" not in values:
+        pool = parts["train"]
+        scenes = pool.drop_duplicates("scene_id")[["scene_id"]].reset_index(drop=True)
+        tv, val = train_test_split(scenes, test_size=val_size, random_state=seed)
+        val_scenes = set(val["scene_id"])
+        parts["train"] = pool[~pool["scene_id"].isin(val_scenes)].copy()
+        parts["val"] = pool[pool["scene_id"].isin(val_scenes)].copy()
+    for a, b in (("train", "val"), ("train", "test"), ("val", "test")):
+        assert_disjoint(parts[a]["scene_id"], parts[b]["scene_id"], f"{a}/{b}")
+    return parts
+
+
+def split_manifest(df: pd.DataFrame, seed: int = 42) -> dict[str, pd.DataFrame]:
+    if "split" in df.columns:
+        return assigned_splits(df, seed=seed)
+    return scene_level_split(df, seed=seed)
+
+
+def holdout_aoi_split(
+    df: pd.DataFrame,
+    aoi_values: Sequence[str],
+    seed: int = 42,
+    val_size: float = 0.15,
+) -> dict[str, pd.DataFrame]:
+    pool, test = holdout_aoi(df, aoi_values)
+    if test.empty:
+        raise ValueError(f"aoi holdout matched no rows: {list(aoi_values)}")
+    scenes = pool.drop_duplicates("scene_id")[["scene_id"]].reset_index(drop=True)
+    tv, val = train_test_split(scenes, test_size=val_size, random_state=seed)
+    train_scenes = set(tv["scene_id"])
+    val_scenes = set(val["scene_id"])
+    test_scenes = set(test["scene_id"])
+    assert_disjoint(train_scenes, val_scenes, "train/val")
+    assert_disjoint(train_scenes, test_scenes, "train/test")
+    assert_disjoint(val_scenes, test_scenes, "val/test")
+    train = pool[pool["scene_id"].isin(train_scenes)].copy()
+    val_df = pool[pool["scene_id"].isin(val_scenes)].copy()
+    return {"train": train, "val": val_df, "test": test}
+
+
 def holdout_aoi(df: pd.DataFrame, aoi_values: Sequence[str]) -> tuple[pd.DataFrame, pd.DataFrame]:
     mask = df["aoi_id"].astype(str).isin([str(v) for v in aoi_values])
     test, train = df[mask].copy(), df[~mask].copy()

@@ -28,7 +28,7 @@ from aerial_change.runs import (
     run_out_path,
     split_hash,
 )
-from aerial_change.splits import load_manifest, scene_level_split
+from aerial_change.splits import holdout_aoi_split, load_manifest, split_manifest
 
 MAX_FPR = 0.05
 
@@ -79,6 +79,11 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=None)
     parser.add_argument("--out", default=None)
     parser.add_argument("--allow-placeholder", action="store_true")
+    parser.add_argument(
+        "--holdout-aoi",
+        default=None,
+        help="comma-separated aoi_id values held out entirely as the test split",
+    )
     args = parser.parse_args()
 
     cfg = load_config(args.config)
@@ -104,7 +109,13 @@ def main() -> None:
     utc_start = datetime.now(timezone.utc)
 
     df = load_manifest(manifest)
-    parts = scene_level_split(df, seed=seed)
+    if args.holdout_aoi:
+        aois = [a.strip() for a in args.holdout_aoi.split(",") if a.strip()]
+        parts = holdout_aoi_split(df, aois, seed=seed)
+        split_mode = "aoi_holdout"
+    else:
+        parts = split_manifest(df, seed=seed)
+        split_mode = "assigned" if "split" in df.columns else "seeded"
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     datasets = {
@@ -159,6 +170,8 @@ def main() -> None:
         "manifest": {"path": manifest, "sha256": manifest_sha256(manifest)},
         "split": {
             "seed": seed,
+            "mode": split_mode,
+            "aois": args.holdout_aoi,
             "hash": split_hash(parts),
             "n_scenes": {k: int(v["scene_id"].nunique()) for k, v in parts.items()},
         },

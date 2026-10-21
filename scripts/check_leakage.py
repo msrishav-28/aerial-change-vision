@@ -5,7 +5,7 @@ import argparse
 
 from aerial_change.dataset import row_to_record
 from aerial_change.leakage import assert_civilian_label, assert_disjoint
-from aerial_change.splits import load_manifest, scene_level_split
+from aerial_change.splits import load_manifest, split_manifest
 
 
 def main() -> None:
@@ -16,7 +16,7 @@ def main() -> None:
     for _, row in df.iterrows():
         rec = row_to_record(row)
         assert_civilian_label(rec.label)
-    parts = scene_level_split(df)
+    parts = split_manifest(df)
     assert_disjoint(parts["train"]["scene_id"], parts["val"]["scene_id"], "train/val")
     assert_disjoint(parts["train"]["scene_id"], parts["test"]["scene_id"], "train/test")
     assert_disjoint(parts["val"]["scene_id"], parts["test"]["scene_id"], "val/test")
