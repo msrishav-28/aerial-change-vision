@@ -14,6 +14,11 @@ authors = [{name = "M S Rishav Subhin"}]
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[project.optional-dependencies]
+# ingest (scripts/build_oscd_manifest.py) and dev tooling
+ingest = ["pyarrow>=14", "pillow>=10"]
+dev = ["pytest>=7", "ruff>=0.4"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
